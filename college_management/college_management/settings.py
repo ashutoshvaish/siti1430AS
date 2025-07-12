@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'unsafe-default-key')
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = ['*','https://sitiapp.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -137,7 +137,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-CSRF_TRUSTED_ORIGINS= ["https://sitiapp.onrender.com",]
+CSRF_TRUSTED_ORIGINS= ["https://siti1430as-production.up.railway.app/",]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
