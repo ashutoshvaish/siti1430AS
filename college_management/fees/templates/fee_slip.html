@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fee Slip</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .receipt { border: 1px solid #000; padding: 20px; width: 500px; }
+        h2, h3 { text-align: center; width: max-content; }
+        .address { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        td, th { padding: 8px; border: 1px solid #000; text-align: left; }
+        .header-table { width: 100%; border: none; margin-bottom: 10px; }
+        .header-table td { border: none; text-align: center; }
+        .logo { width: 100px; }
+        button { margin-top: 20px; padding: 10px 20px; }
+        .note { font-size: 12px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        {% load static %}
+        <table class="header-table">
+            <tr>
+                <td><img src="{% static 'images/iti.png' %}" alt="College Logo" class="logo" /></td>
+                <td><h2>SHAURYA ITI COLLEGE</h2></td>
+                <td><img src="{% static 'images/skillindia.png' %}" alt="Skill Logo" class="logo" /></td>
+            </tr>
+        </table>
+        <div class="address"><strong>Ustapur, Jhunsi, Prayagraj</strong></div>
+        <h3>Fee Receipt</h3>
+
+        <table>
+            <tr>
+                <th>S. No</th>
+                <td>{{ fee.id }}</td>
+            </tr>
+            <tr>
+                <th>Student Name</th>
+                <td>{{ fee.student.student_name }}</td>
+            </tr>
+            <tr>
+                <th>Roll No</th>
+                <td>{{ fee.student.roll_no }}</td>
+            </tr>
+            <tr>
+                <th>Trade</th>
+                <td>{{ fee.student.trade }}</td>
+            </tr>
+            <tr>
+                <th>Fee Receipt No</th>
+                <td>{{ fee.fees_receipt_no }}</td>
+            </tr>
+            <tr>
+                <th>Amount Paid</th>
+                <td>₹{{ fee.amount }}</td>
+            </tr>
+            <tr>
+                <th>Payment Mode</th>
+                <td>{{ fee.payment_mode }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ fee.date }}</td>
+            </tr>
+            <tr>
+                <th>Collected By</th>
+                <td>{{ fee.collected_by.first_name}} {{fee.collected_by.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Remaining Fees</th>
+                <td>₹{{ fee.student.pending_fees }}</td>
+            </tr>
+        </table>
+
+        <button onclick="window.print()">Print Fee Slip</button>
+        <div class="note">** This is a computer-generated slip.</div>
+    </div>
+</body>
+</html>

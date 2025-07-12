@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shaurya ITI College Prayagraj</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5em;
+            color: #3498db;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #3498db;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #777;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo Image -->
+        <div class="logo-container">
+            <img src="{% static 'images/iti.png' %}" alt="ITI" class="logo">
+            <img src="{% static 'images/iti-logo.png' %}" alt="ITI Logo" class="logo">
+            <img src="{% static 'images/skillindia.png' %}" alt="Skill India" class="logo">
+        </div>
+
+        <!-- Heading -->
+        <h1>Shaurya ITI College Prayagraj</h1>
+        <h3>College Code: 1430</h3>
+
+        <!-- Admin Login Button -->
+        <a href="{% url 'admin:index' %}" class="btn">Login to Admin Panel</a>
+
+        <!-- Footer -->
+        <div class="footer">
+            © 2025 Shaurya ITI College. All rights reserved.
+        </div>
+    </div>
+
+</body>
+</html>

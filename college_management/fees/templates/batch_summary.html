@@ -1,0 +1,168 @@
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        padding: 30px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        cursor: pointer;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    td {
+        font-size: 15px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        padding-top: 80px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 300px;
+        text-align: center;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<h2>📊 Batch-wise Fees Summary</h2>
+
+<table id="batchTable">
+    <tr>
+        <th>Batch Year</th>
+        <th>Total Estimated Fees</th>
+        <th>Total Fees Collected</th>
+        <th>Total Pending Fees</th>
+    </tr>
+    {% for batch in batches %}
+    <tr onclick="showChart('{{ batch.year }} - {{ batch.year|add:2 }}', {{ batch.total_collected }}, {{ batch.total_pending }})">
+        <td>{{ batch.year }} - {{ batch.year|add:2 }}</td>
+        <td>₹{{ batch.total_estimated_fees }}</td>
+        <td>₹{{ batch.total_collected }}</td>
+        <td>₹{{ batch.total_pending }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Modal for chart -->
+<div id="chartModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h4 id="modalTitle"></h4>
+        <canvas id="chartCanvas" width="250" height="250"></canvas>
+    </div>
+</div>
+
+<!-- Chart.js and datalabel plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<script>
+    let chart;
+
+    function showChart(batchLabel, collected, pending) {
+        document.getElementById('chartModal').style.display = 'block';
+        document.getElementById('modalTitle').innerText = 'Fees Status: ' + batchLabel;
+
+        const ctx = document.getElementById('chartCanvas').getContext('2d');
+        if (chart) chart.destroy();
+
+        chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Collected', 'Pending'],
+                datasets: [{
+                    data: [collected, pending],
+                    backgroundColor: ['#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const data = context.chart.data.datasets[0].data;
+                            const total = data.reduce((a, b) => a + b, 0);
+                            return total ? (value / total * 100).toFixed(1) + '%' : '';
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            size: 14
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('chartModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('chartModal');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}
